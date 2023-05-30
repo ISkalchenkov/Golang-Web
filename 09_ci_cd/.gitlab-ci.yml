@@ -1,0 +1,62 @@
+stages:
+  - checks
+  - deploy
+
+build:
+  image: golang:1.18
+  stage: checks
+  script:
+    - echo "Building the app"
+    - make build
+
+test:
+  image: golang:1.18
+  stage: checks
+  script:
+    - echo "Testing the app"
+    - make test
+
+lint:
+  image: golangci/golangci-lint:latest
+  stage: checks
+  script:
+    - echo "Checking the app with linters"
+    - make lint
+
+.prepare_ssh:
+  before_script:
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+
+    ## Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+    ## Add the SSH key stored in SSH_PRIVATE_KEY file to the agent store
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+
+    ## Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -t rsa 178.20.45.3 >> ~/.ssh/known_hosts
+    - docker login --username iskalchenkov --password $DOCKER_TOKEN
+
+deploy:
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  extends: .prepare_ssh
+  image: docker
+  services:
+    - docker:dind
+  stage: deploy
+  script:
+    - docker build -t iskalchenkov/note_app:latest .
+    - docker push iskalchenkov/note_app:latest
+    - ssh root@178.20.45.3 'sudo docker stop app || echo 1'
+    - ssh root@178.20.45.3 'sudo docker rm app || echo 1'
+    - ssh root@178.20.45.3 'sudo docker pull iskalchenkov/note_app:latest'
+    - ssh root@178.20.45.3 'sudo docker run --rm -d -p 80:80 --name=app iskalchenkov/note_app:latest'
+  environment:
+    name: production
+    url: http://178.20.45.3
+  only:
+    - master

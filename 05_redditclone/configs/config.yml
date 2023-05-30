@@ -1,0 +1,9 @@
+http:
+  port: 8080
+
+session:
+  secretKey: "secret"
+  accessTokenTTL: 168h
+
+logger:
+  level: "info"

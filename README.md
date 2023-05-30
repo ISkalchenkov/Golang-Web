@@ -1,2 +1,11 @@
-# Golang-Web
-Проекты по курсу "Разработка веб-сервисов на Golang" VK Education
+## *Проекты по курсу "Разработка веб-сервисов на Golang" VK Education*
+- [*hw-1*](https://github.com/ISkalchenkov/Golang-Web/tree/master/01_interactive_fiction_game) *interactive fiction game*
+- [*hw-2*](https://github.com/ISkalchenkov/Golang-Web/tree/master/02_pipeline) *pipeline*
+- [*hw-3*](https://github.com/ISkalchenkov/Golang-Web/tree/master/03_http_coverage) *http/coverage*
+- [*hw-4*](https://github.com/ISkalchenkov/Golang-Web/tree/master/04_telegram_taskbot) *telegram taskbot*
+- [*hw-5*](https://github.com/ISkalchenkov/Golang-Web/tree/master/05_redditclone) *redditclone*
+- [*hw-7*](https://github.com/ISkalchenkov/Golang-Web/tree/master/07_grpc) *grpc*
+- [*hw-8*](https://github.com/ISkalchenkov/Golang-Web/tree/master/08_monitoring) *monitoring*
+- [*hw-9*](https://github.com/ISkalchenkov/Golang-Web/tree/master/09_ci_cd) *ci/cd*
+- [*hw-10*](https://github.com/ISkalchenkov/Golang-Web/tree/master/10_optimization_reflect) *optimization/reflect*
+- [*hw-11*](https://github.com/ISkalchenkov/Golang-Web/tree/master/11_tree) *tree*
